@@ -18,7 +18,7 @@ find(ID) ->
 %% @doc Return brief info about all organizations.
 -spec all() -> [#{binary() := binary() | atom()}].
 all() ->
-  nxo_db:map_all(nxo_orgs, "org_name").
+  nxo_db:q(all_orgs).
 
 %% @doc Delete an organization.  Will return {ok, 1} if an
 %% organization was deleted and {ok, 0} otherwise.
