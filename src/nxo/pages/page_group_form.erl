@@ -36,7 +36,7 @@ submission() ->
        end,
   case nxo_validate:validate(group_form, #{group_id => wf:state(objID)}) of
     true ->
-      nxo_db:returning_query(group_add, [ID | nxo_datamap:apply(group_form)]),
+      nxo_db:q(group_add, [ID | nxo_datamap:apply(group_form)]),
       wf:redirect("/groups");
     false ->
       nxo_view:report_validation_failure()

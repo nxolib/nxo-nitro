@@ -17,7 +17,7 @@ main() -> #template{ file=nxo:template("organization.html") }.
 title() -> "Organization Management".
 
 body() ->
-  Orgs = nxo_db:map_all(nxo_orgs, org_name),
+  Orgs = nxo_db:q(nxo_orgs),
   #template{ text=nxo_template:render(org_list, #{orgs => Orgs}) }.
 
 event(add) ->

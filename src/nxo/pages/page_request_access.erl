@@ -40,7 +40,7 @@ submission() ->
 process_request() ->
   %% add the user
   Params = [nxo:uuid() | nxo_datamap:apply(user_add)],
-  UID = nxo_db:returning_query(user_add, Params),
+  UID = nxo_db:q(scalar, user_add, Params),
 
   %% maybe add to an organization
   OID = wf:q(org_id),

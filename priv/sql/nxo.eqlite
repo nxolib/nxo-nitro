@@ -121,6 +121,11 @@ WHERE LOWER(org_name) = LOWER($1)
    OR LOWER(org_abbrv) = LOWER($1)
    OR org_id::text = $1
 
+-- :all_orgs
+SELECT *
+FROM nxo_orgs
+ORDER BY org_name;
+
 -- :pending_user_count
 SELECT COUNT(*)
 FROM nxo_user_groups
