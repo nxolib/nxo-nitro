@@ -38,12 +38,12 @@ add_to_group(UserID, GroupName) ->
 %% @doc Remove a UserID from group.
 -spec remove_from_group(uuid:uuid_string(), string()) -> ok.
 remove_from_group(UserID, GroupName) ->
-  nxo_db:query(role_unset_has_role, [UserID, GroupName]).
+  nxo_db:q(role_unset_has_role, [UserID, GroupName], raw).
 
 %% @doc Delete a group specified by name or ID.
 -spec delete_group(NameOrID :: string()) -> {ok, 1} | not_found.
 delete_group(NameOrID) ->
   case find_group(NameOrID) of
-    [#{<<"group_id">> := ID}] -> nxo_db:query(group_delete, [ID]);
+    [#{<<"group_id">> := ID}] -> nxo_db:q(group_delete, [ID], raw);
     _ -> not_found
   end.

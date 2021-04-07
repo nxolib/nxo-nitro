@@ -14,7 +14,7 @@
 main() ->
   case nxo_auth_user:is_ad(wf:user()) of
     true  -> wf:redirect("/");
-    false -> nxo:auth_template("password.html")
+    false -> #template{ file=nxo:template("password.html") }
   end.
 
 title() -> "NNXO: Password Change".

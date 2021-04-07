@@ -17,11 +17,12 @@ main() -> #template{ file=nxo:template("organization.html") }.
 title() -> "Organization Management".
 
 body() ->
-  Orgs = nxo_db:q(nxo_orgs),
+  Orgs = nxo_db:q(all_orgs),
   #template{ text=nxo_template:render(org_list, #{orgs => Orgs}) }.
 
 event(add) ->
   wf:redirect("/org_form");
+
 event({edit, ID}) ->
   wf:redirect("/org_form/" ++ ID);
 event({info, ID}) ->
