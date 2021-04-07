@@ -1,0 +1,86 @@
+## This is the production docker-compose file.
+
+version: '3.7'
+services:
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER={{ name }}_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_pass
+      - POSTGRES_DB={{ name }}_db
+    volumes:
+      - {{ name }}_pgdata:/var/lib/postgresql/data
+    networks:
+      - {{ name }}net
+    hostname: db
+    deploy:
+      labels:
+        - "traefik.enable=false"
+      placement:
+        constraints:
+          - "node.role==manager"
+    secrets:
+      - db_pass
+
+
+  fe:
+    image: ${DOCKER_IMAGE}
+    volumes:
+      - {{ name }}_files:/files
+    networks:
+      - {{ name }}net
+      - traefik_default
+    depends_on:
+      - db
+    secrets:
+      - ad_bind_pass
+      - db_pass
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.${TRAEFIK_ID}.rule=Host(`${FE_URL}`)"
+        - "traefik.http.services.${TRAEFIK_ID}.loadbalancer.server.port=3003"
+        - "traefik.http.routers.${TRAEFIK_ID}.entrypoints=https"
+        - "traefik.http.routers.${TRAEFIK_ID}.tls=True"
+        - "traefik.docker.network=traefik_default"
+        - "traefik.http.middlewares.security.headers.framedeny=true"
+        - "traefik.http.middlewares.forwarded.headers.customrequestheaders.X-Forwarded-Proto=https"
+        - "traefik.http.routers.${TRAEFIK_ID}.middlewares=security@docker,forwarded@docker"
+    environment:
+      - CODE_LOADING_MODE=interactive
+    entrypoint: /{{ name }}/{{ name }}/bin/{{ name }} foreground
+
+    ## debugging hint: one can replace the above entrypoint with this
+    ## null action and then poke around the container (potentially
+    ## starting and restarting the app).
+    # entrypoint: sleep infinity
+
+
+
+volumes:
+  {{ name }}_pgdata:
+  {{ name }}_files:
+
+networks:
+  {{ name }}net:
+  traefik_default:
+    external: true
+
+secrets:
+  ad_bind_pass:
+    external: true
+  db_pass:
+    external: true
+
+## For AD forwarding:
+##
+## And an AD password secret:
+##
+##   printf 'password' | docker secret create ad_bind_pass -
+
+## For db_pass:
+##
+## printf "..." | docker secret create db_pass -

@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+## A note: these commands work partially because we're running a very
+## simple topology (only one container per service).
+
+usage() {
+    cat <<EOF
+
+manage <cmd> where <cmd> is one of:
+
+  shell           - open a bash shell on the FE
+  remote          - open a remote Erlang shell on FE
+  db              - open a psql session on DB
+  logs <db|fe>    - tail logs on the specified container
+  start           - start the stack
+  stop            - stop the stack
+  inspect <db|fe> - inspect the container
+  feid            - return the front end Docker ID
+  dbid            - return the database Docker ID
+  apply-ddl       - exec nxo_db:apply_full_ddl()
+
+EOF
+}
+
+## ensure this script is run as root (or sudo)
+[ "$(id -u)" != "0" ] && { echo "Must be run as root! Aborting"; exit 1;}
+
+## setup the environment
+TOOLS_BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. $TOOLS_BASE/environment
+
+## (re-)write the docker-compose file using the docker-ci-compose
+## template and the environment variable we've just exported
+envsubst < $TOOLS_BASE/docker-ci-compose.yml > $TOOLS_BASE/docker-compose.yml
+
+
+## some artifacts we'll reference in the script:
+FE_CONTAINER_NAME=${DOCKER_STACK}_fe
+DB_CONTAINER_NAME=${DOCKER_STACK}_db
+
+ID='--format {{.ID}}'
+
+FE_ID=$(docker ps --filter name=$FE_CONTAINER_NAME $ID)
+DB_ID=$(docker ps --filter name=$DB_CONTAINER_NAME $ID)
+
+
+case $1 in
+    feid)
+        printf $FE_ID
+        ;;
+    dbid)
+        printf $DB_ID
+        ;;
+    shell)
+        docker exec -it -w /{{name}}/{{name}} $FE_ID bash
+        ;;
+
+    remote)
+        docker exec -it $FE_ID /{{name}}/{{name}}/bin/{{name}} remote
+        ;;
+    db)
+        docker exec -it $DB_ID psql -U{{name}}_user {{name}}_db
+        ;;
+    apply-ddl)
+        CMD='nxo_db:apply_full_ddl().'
+        docker exec $FE_ID /{{name}}/{{name}}/bin/{{name}} eval $CMD
+        ;;
+    logs)
+        case $2 in
+             fe)
+                 docker logs --tail 100 -f $FE_ID
+                 ;;
+             db)
+                 docker logs --tail 100 -f $DB_ID
+                 ;;
+             *)
+                 echo "Usage: $0 logs <fe|db>"
+                 ;;
+        esac
+        ;;
+    stop)
+        docker stack rm $DOCKER_STACK
+        ;;
+    start)
+        docker stack deploy -c $TOOLS_BASE/docker-compose.yml $DOCKER_STACK
+        ;;
+    ps)
+        docker stack ps $DOCKER_STACK
+        ;;
+    inspect)
+        case $2 in
+            fe)
+                docker inspect $FE_ID
+                ;;
+            db)
+                docker inspect $DB_ID
+                ;;
+            *)
+                echo "Usage: $0 inspect <fe|db"
+                ;;
+        esac
+        ;;
+    *)
+        usage
+        ;;
+esac

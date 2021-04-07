@@ -1,0 +1,7 @@
+#!/bin/sh
+
+url=$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files
+
+docker run curlimages/curl \
+       --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" \
+       $url/.version/raw\?ref\=$1

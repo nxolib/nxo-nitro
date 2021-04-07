@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER={{name}}_user
+      - POSTGRES_PASSWORD={{name}}_pass
+      - POSTGRES_DB={{name}}_db
+    volumes:
+      - {{name}}_pgdata:/var/lib/postgresql/data
+    networks:
+      - {{name}}net
+
+  fe:
+    image: erlang:23
+    ports:
+      - "{{exposed_port}}:{{port}}"
+    volumes:
+      - ".:/{{name}}"
+    networks:
+      - {{name}}net
+    depends_on:
+      - db
+    entrypoint:
+      - /bin/bash
+    tty: true
+    stdin_open: true
+    working_dir: /{{name}}
+
+  # Mailcatcher is a means of collecting email so that it's not sent
+  # out to the world.  The application should send to mailcatcher:1025
+  # and is viewable at http://localhost:1080 (at least in this
+  # configuration).
+  # mailcatcher:
+  #   image: schickling/mailcatcher
+  #   networks:
+  #     - {{name}}net
+  #   ports:
+  #     - "{{mail_port}}:1080"
+
+
+volumes:
+  {{name}}_pgdata:
+
+networks:
+  {{name}}net:

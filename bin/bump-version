@@ -1,0 +1,66 @@
+#!/bin/bash
+
+## the environment exported by GitLab's CI process
+[ -r .env ] && . ./.env
+
+case $bump_version in
+    true)
+        echo "Bumping version."
+        echo "URL $CI_REPOSITORY_URL"
+        ;;
+    *)
+        echo "Skipping bump-version."
+        exit
+        ;;
+esac
+
+## ensure any changes are made to the relevant branch:
+git checkout $CI_COMMIT_BRANCH
+
+## retrieve the old version number and set the new version
+oldversion=$(cat .version)
+version=$((oldversion+1))
+echo New version is $version
+echo $version > .version
+
+## setup the deployment keypair
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+ssh-keyscan gitlab.example.com >> ~/.ssh/known_hosts && \
+    chmod 644 ~/.ssh/known_hosts
+eval $(ssh-agent -s)
+echo "$SSH_PRIVATE_KEY" > /tmp/key && \
+    chmod 600 /tmp/key
+ssh-add /tmp/key
+
+## update the version number in the relevant source files
+##
+## note that the verison is represented like ^"20" %-% VERSION$" by
+## convention so this script can locate the number it's going to bump.
+files="rebar.config src/{{name}}.app.src"
+for file in $files
+do
+    sed -E -i~ "s|^\"[0-9]+\"( +%-% +VERSION)$|\"${version}\"\1|" $file
+    git add $file
+done
+
+## set the repository URL
+url=$(echo $CI_REPOSITORY_URL | sed -E 's|.+@([^/]+)/([^/]+)|git@\1:\2|')
+echo "Repository URL: $url"
+
+## setup the connection to the GitLab repo and execute the commands
+## necessary to update the source files and add a version tag
+git remote set-url --push origin $url
+git config user.email "<noreply@example.com>"
+git config user.name  "GitLab CI"
+
+git commit -am "(CI) updated version"
+git push origin HEAD:$CI_COMMIT_BRANCH
+
+git tag $version
+git push --tags origin HEAD:$CI_COMMIT_BRANCH
+
+## remove artifacts:
+/bin/rm -fr ~/.ssh
+/bin/rm -f  /tmp/key
+/bin/rm -f  .env
+/bin/rm -fr .git

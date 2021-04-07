@@ -1,0 +1,86 @@
+version: '3.7'
+services:
+  traefik:
+    image: "traefik:v2.3"
+    container_name: "traefik"
+    command:
+      # - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      # - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email={{author_email}}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - "/var/data/letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - {{name}}net
+
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.example.com`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+    networks:
+      - {{name}}net
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER={{name}}_user
+      - POSTGRES_PASSWORD={{name}}_pass
+      - POSTGRES_DB={{name}}_db
+    volumes:
+      - {{name}}_pgdata:/var/lib/postgresql/data
+    networks:
+      - {{name}}net
+
+  fe:
+    image: erlang:20
+    volumes:
+      - "{{name}}_files:/files"
+      - ".:/{{name}}"
+    networks:
+      - {{name}}net
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+    working_dir: /{{name}}
+    entrypoint: rebar3 shell
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.upfb-ins.rule=Host(`example.com`)"
+      - "traefik.http.routers.upfb-ins.entrypoints=web"
+      - "traefik.http.routers.upfb-ins.middlewares=redirect"
+      - "traefik.http.routers.upfb.rule=Host(`example.com`)"
+      - "traefik.http.routers.upfb.entrypoints=websecure"
+      - "traefik.http.routers.upfb.tls.certresolver=myresolver"
+      - "traefik.http.services.upfb.loadbalancer.server.port={{port}}"
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    networks:
+      - {{name}}net
+    ports:
+      - "1080:1080"
+
+
+volumes:
+  {{name}}_pgdata:
+  {{name}}_files:
+
+networks:
+  {{name}}net:

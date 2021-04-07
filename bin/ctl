@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+case $1 in
+
+    start)
+        docker stack deploy -c docker-compose.yml {{name}}
+        ;;
+    stop)
+        docker stack rm {{name}}
+        ;;
+    ps)
+        docker stack ps {{name}}
+        ;;
+    shell)
+        docker attach $(docker ps --filter name={{name}}_fe \
+                               --format "{{docker_format}}")
+        ;;
+    db)
+        DB="/usr/bin/psql -U{{name}}_user {{name}}_db"
+        DBID=$(docker ps --filter name={{name}}_db \
+                      --format "{{docker_format}}")
+        docker exec -it $DBID $DB
+        ;;
+    *)
+        echo "start|stop|shell|db|ps"
+        ;;
+esac

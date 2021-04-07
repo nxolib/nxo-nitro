@@ -1,0 +1,41 @@
+%% -*- mode: erlang -*-
+
+[
+ { {{name}}, [{development_mode, ${DEVELOPMENT_MODE}}] },
+
+ {nxo_db,
+  [{pools, [#{name => ${DB_NAME},
+              host => "${DB_HOST}",
+              user => "${DB_USER}",
+              pass => fun {{name}}:db_pass/1,
+              database => "${DB_DATABASE}"}]},
+   {retries, 3},
+   {retry_sleep, 400},
+   {default_return, auto},
+   {ddl_source, [{priv_dir, {{name}}, "ddl"}]},
+   {sql_source, [{priv_dir, {{name}}, "sql"}]}
+  ]},
+
+ {nxo_template, [{path, [{priv_dir, {{name}}, "dtl"}]}]},
+
+ {nxo, [{application, {{name}}},
+        {html_template_dir, [{priv_dir, {{name}}, "templates"}]}]},
+
+ {nitrogen_core, [{module_prefix, "page"}]},
+
+ {sync, [{growl, none}]},
+
+ {simple_bridge, [
+                  {handler, nitrogen},
+                  {backend, cowboy},
+                  {address, "{{ bind }}"},
+                  {port, {{ port }} },
+                  {document_root, unused},
+                  {static_paths, ["js/", "css/", "images/", "nitrogen/",
+                                  "fonts/", "favicon.ico"]},
+                  {max_post_size, 10},
+                  {max_file_size, 10},
+                  {max_file_in_memory_size,  0},
+                  {scratch_dir, "./scratch"}
+                 ]}
+].
