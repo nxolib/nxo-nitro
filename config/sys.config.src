@@ -1,7 +1,6 @@
 %% -*- mode: erlang -*-
 
 [
- { {{name}}, [{development_mode, ${DEVELOPMENT_MODE}}] },
 
  {nxo_db,
   [{pools, [#{name => ${DB_NAME},
@@ -19,6 +18,7 @@
  {nxo_template, [{path, [{priv_dir, {{name}}, "dtl"}]}]},
 
  {nxo, [{application, {{name}}},
+        {development_mode, ${DEVELOPMENT_MODE}},
         {html_template_dir, [{priv_dir, {{name}}, "templates"}]}]},
 
  {nitrogen_core, [{module_prefix, "page"}]},

@@ -4,7 +4,7 @@
 -include("nxo.hrl").
 -export([start_link/0]).
 
--export([init/1]).
+-export([init/1, ping_db/0]).
 
 -define(SERVER, ?MODULE).
 
