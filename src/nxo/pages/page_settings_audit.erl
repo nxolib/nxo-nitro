@@ -13,7 +13,7 @@
 -security({group, administrators}).
 -postback_security({group, administrators}).
 
-main() -> nxo:authz_template(admin_users, "settings_audit.html").
+main() -> #template{ file=nxo:template("settings_audit.html") }.
 
 title() -> "Settings Audit".
 

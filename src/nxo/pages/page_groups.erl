@@ -12,7 +12,7 @@
 -security({groups, [administrators, usermgmt]}).
 -postback_security({groups, [administrators, usermgmt]}).
 
-main() -> nxo:authz_template(admin_everything, "groups.html").
+main() -> #template{ file=nxo:template("groups.html") }.
 
 title() -> "Group Management".
 

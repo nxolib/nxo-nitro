@@ -13,7 +13,7 @@
 
 main() ->
   nxo_forms:find_obj(fun nxo_auth_user:find/1),
-  nxo:authz_template(admin_users, "user_form.html").
+  #template{ file=nxo:template("user_form.html") }.
 
 title() ->
   case nxo_forms:obj_defined() of

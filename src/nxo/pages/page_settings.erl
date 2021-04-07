@@ -15,7 +15,8 @@
 -postback_security({group, administrators}).
 
 
-main() -> nxo:authz_template(admin_everything, "settings.html").
+main() ->
+  #template{ file=nxo:template("settings.html") }.
 
 title() -> "Site Settings".
 

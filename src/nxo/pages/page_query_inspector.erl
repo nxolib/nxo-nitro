@@ -11,7 +11,7 @@
 -postback_security({group, administrators}).
 
 main() ->
-  nxo:authz_template(admin_everything, "query_inspector.html").
+  #template{ file=nxo:template("query_inspector.html") }.
 
 title() ->
   "NXO: Query Inspector".

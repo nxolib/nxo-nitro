@@ -12,7 +12,7 @@
 -postback_security({group, administrators}).
 
 main() ->
-  nxo:auth_template("mailcheck.html").
+  #template{ file=nxo:template("mailcheck.html") }.
 
 title() -> "Mail Check".
 

@@ -12,7 +12,7 @@
 
 main() ->
   nxo_forms:find_obj(fun nxo_auth_group:find_group/1),
-  nxo:authz_template(admin_users, "group_form.html").
+  #template{ file=nxo:template("group_form.html") }.
 
 title() ->
   case nxo_forms:obj_defined() of

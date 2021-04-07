@@ -21,11 +21,11 @@
 main() ->
   case wf:path_info() of
     [] ->
-      nxo:authz_template(admin_users, "user_ad_add.html");
+      #template{ file=nxo:template("user_ad_add.html") };
     ID ->
       wf:state(ad_data, nxo_ad:user_data(ID)),
       wf:disable(defer, password),
-      nxo:authz_template(admin_users, "user_form_ad.html")
+      #template{ file=nxo:template("user_form_ad.html") }
   end.
 
 title() -> "Add Directory User".
