@@ -227,6 +227,16 @@
 {file, "priv/templates/nxo/user_form_ad.html",          "{{name}}/priv/templates/nxo/user_form_ad.html"}.
 {file, "priv/templates/nxo/users.html",                 "{{name}}/priv/templates/nxo/users.html"}.
 
+%% PRIV/DTL
+{file, "priv/dtl/nxo/ad_user.dtl",             "{{name}}/priv/dtl/nxo/ad_user.dtl"}.
+{file, "priv/dtl/nxo/group_list.dtl",          "{{name}}/priv/dtl/nxo/group_list.dtl"}.
+{file, "priv/dtl/nxo/org_list.dtl",            "{{name}}/priv/dtl/nxo/org_list.dtl"}.
+{file, "priv/dtl/nxo/organization.dtl",        "{{name}}/priv/dtl/nxo/organization.dtl"}.
+{file, "priv/dtl/nxo/request_form.dtl",        "{{name}}/priv/dtl/nxo/request_form.dtl"}.
+{file, "priv/dtl/nxo/user.dtl",                "{{name}}/priv/dtl/nxo/user.dtl"}.
+{file, "priv/dtl/nxo/user_group.dtl",          "{{name}}/priv/dtl/nxo/user_group.dtl"}.
+{file, "priv/dtl/nxo/user_list.dtl",           "{{name}}/priv/dtl/nxo/user_list.dtl"}.
+
 
 
 %% BOOTSTRAP
