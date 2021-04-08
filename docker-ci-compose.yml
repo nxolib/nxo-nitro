@@ -51,7 +51,8 @@ services:
         - "traefik.http.routers.${TRAEFIK_ID}.middlewares=security@docker,forwarded@docker"
     environment:
       - CODE_LOADING_MODE=interactive
-    entrypoint: /{{ name }}/{{ name }}/bin/{{ name }} foreground
+      - {{name}}_env=prod
+    entrypoint: /{{ name }}/{{ name }}/environment/foreground
 
     ## debugging hint: one can replace the above entrypoint with this
     ## null action and then poke around the container (potentially

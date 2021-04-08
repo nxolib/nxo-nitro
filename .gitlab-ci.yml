@@ -1,0 +1,54 @@
+image: docker:19-dind
+
+## for documentation see the .gitlab-ci.yml file in the tbdb project
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  RELEASE_TAG: $CI_REGISTRY_IMAGE:production
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+
+staging pull request build:
+  stage: build
+  variables:
+    ENVIRONMENT: production
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - docker build --build-arg ENVIRONMENT=$ENVIRONMENT .
+
+production deploy:
+  stage: deploy
+  variables:
+    ENVIRONMENT: production
+    FE_URL: {{name}}.meei.harvard.edu
+    DOCKER_STACK: {{name}}
+    TRAEFIK_ID: {{name}}
+    MCID: {{name}}
+    TOOLS_DIR: /var/application/tools/{{name}}
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: never
+    - if: '$CI_COMMIT_TITLE =~ /^\(CI\)/'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+  script:
+    - export
+    - export > .env
+    - >
+      docker build
+      --build-arg bump_version=false
+      --build-arg ENVIRONMENT=$ENVIRONMENT
+      -t $IMAGE_TAG .
+    - export VERSION=$(bin/get-version master)
+    - export DOCKER_IMAGE=$CI_REGISTRY_IMAGE:$VERSION
+    - echo $CI_REGISTRY_IMAGE $VERSION
+    - docker tag $IMAGE_TAG $DOCKER_IMAGE
+    - docker push $DOCKER_IMAGE
+    - export > .env
+    - bin/build-tools-repo
+    - docker stack deploy -c docker-ci-compose.yml $DOCKER_STACK
