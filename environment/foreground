@@ -1,0 +1,4 @@
+#!/bin/sh
+
+. /orai/orai/environment/${ {{name}}_ENV}.env \
+  && /orai/orai/bin/orai foreground
