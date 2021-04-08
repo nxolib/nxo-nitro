@@ -38,7 +38,7 @@ envsubst < $TOOLS_BASE/docker-ci-compose.yml > $TOOLS_BASE/docker-compose.yml
 FE_CONTAINER_NAME=${DOCKER_STACK}_fe
 DB_CONTAINER_NAME=${DOCKER_STACK}_db
 
-ID='--format {{.ID}}'
+ID='--format {{ docker_format }}'
 
 FE_ID=$(docker ps --filter name=$FE_CONTAINER_NAME $ID)
 DB_ID=$(docker ps --filter name=$DB_CONTAINER_NAME $ID)
