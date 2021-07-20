@@ -5,7 +5,7 @@
 {variables,
  [
   {name, "my_nxoapp", "Name of the application"},
-  {description, "A Docker enabled OTP application.", "App description"},
+  {description, "A Nitrogen/NXO application.", "App description"},
   {docker_format, "{{.ID}}"},
   {bind, "0.0.0.0", "IP address to bind"},
   {port, 3003, "Nitrogen internal port"},
@@ -13,14 +13,14 @@
   {mail_port, 1088, "Mailcatcher exposed port"}
  ]}.
 
-{dir,                            "{{name}}"}.
-{template, "rebar.config",       "{{name}}/rebar.config"}.
-{file,     ".gitignore",         "{{name}}/.gitignore"}.
-{template, "docker-compose.yml", "{{name}}/docker-compose.yml"}.
-{template, "Dockerfile",         "{{name}}/Dockerfile"}.
+{dir,                               "{{name}}"}.
+{template, "rebar.config",          "{{name}}/rebar.config"}.
+{file,     ".gitignore",            "{{name}}/.gitignore"}.
+{template, "docker-compose.yml",    "{{name}}/docker-compose.yml"}.
+{template, "Dockerfile",            "{{name}}/Dockerfile"}.
 {template, "docker-ci-compose.yml", "{{name}}/docker-ci-compose.yml"}.
 {template, "prod-compose.yml",      "{{name}}/prod-compose.yml"}.
-{file,     ".version",           "{{name}}/.version"}.
+{file,     ".version",              "{{name}}/.version"}.
 
 {dir,                               "{{name}}/config"}.
 {template, "config/vm.args",        "{{name}}/config/vm.args"}.
@@ -34,9 +34,9 @@
 {template, "bin/bump-version", "{{name}}/bin/bump-version"}.
 {file,     "bin/get-version",  "{{name}}/bin/get-version"}.
 
-{chmod, "{{name}}/bin/{{name}}", 8#755}.
+{chmod, "{{name}}/bin/{{name}}",     8#755}.
 {chmod, "{{name}}/bin/bump-version", 8#755}.
-{chmod, "{{name}}/bin/get-version", 8#755}.
+{chmod, "{{name}}/bin/get-version",  8#755}.
 
 %% ETC
 {dir, "{{name}}/etc"}.
@@ -53,82 +53,82 @@
 
 {dir, "{{name}}/src/api"}.
 {dir, "{{name}}/src/pages"}.
-{dir, "{{name}}/src/nxo"}.
-{dir, "{{name}}/src/nxo/pages"}.
-{dir, "{{name}}/src/nxo/servers"}.
-{dir, "{{name}}/src/nxo/handlers"}.
+%{dir, "{{name}}/src/nxo"}.
+%{dir, "{{name}}/src/nxo/pages"}.
+%{dir, "{{name}}/src/nxo/servers"}.
+%{dir, "{{name}}/src/nxo/handlers"}.
 
 {template, "src/pages/page_index.erl", "{{name}}/src/pages/page_index.erl"}.
 
 {file, "src/api/api_v1_error.erl", "{{name}}/src/api/api_v1_error.erl"}.
 {file, "src/api/api_v1_test.erl",  "{{name}}/src/api/api_v1_test.erl"}.
 
-{file, "src/nxo/handlers/nxo_role_handler.erl",       "{{name}}/src/nxo/handlers/nxo_role_handler.erl"}.
-{file, "src/nxo/handlers/nxo_route_handler.erl",      "{{name}}/src/nxo/handlers/nxo_route_handler.erl"}.
-{file, "src/nxo/handlers/nxo_security_handler.erl",   "{{name}}/src/nxo/handlers/nxo_security_handler.erl"}.
-{file, "src/nxo/handlers/nxo_postback_handler.erl",   "{{name}}/src/nxo/handlers/nxo_postback_handler.erl"}.
-{file, "src/nxo/handlers/nitrogen_main_handler.erl",  "{{name}}/src/nxo/nitrogen_main_handler.erl"}.
+%% {file, "src/nxo/handlers/nxo_role_handler.erl",       "{{name}}/src/nxo/handlers/nxo_role_handler.erl"}.
+%% {file, "src/nxo/handlers/nxo_route_handler.erl",      "{{name}}/src/nxo/handlers/nxo_route_handler.erl"}.
+%% {file, "src/nxo/handlers/nxo_security_handler.erl",   "{{name}}/src/nxo/handlers/nxo_security_handler.erl"}.
+%% {file, "src/nxo/handlers/nxo_postback_handler.erl",   "{{name}}/src/nxo/handlers/nxo_postback_handler.erl"}.
+%% {file, "src/nxo/handlers/nitrogen_main_handler.erl",  "{{name}}/src/nxo/nitrogen_main_handler.erl"}.
 
-{file, "src/nxo/nxo.erl",                             "{{name}}/src/nxo/nxo.erl"}.
-{file, "src/nxo/nxo_ad.erl",                          "{{name}}/src/nxo/nxo_ad.erl"}.
-{file, "src/nxo/nxo_api.erl",                         "{{name}}/src/nxo/nxo_api.erl"}.
-{file, "src/nxo/nxo_auth_group.erl",                  "{{name}}/src/nxo/nxo_auth_group.erl"}.
-{file, "src/nxo/nxo_auth_user.erl",                   "{{name}}/src/nxo/nxo_auth_user.erl"}.
-{file, "src/nxo/nxo_authz.erl",                       "{{name}}/src/nxo/nxo_authz.erl"}.
-{file, "src/nxo/nxo_datamap.erl",                     "{{name}}/src/nxo/nxo_datamap.erl"}.
-{file, "src/nxo/nxo_forms.erl",                       "{{name}}/src/nxo/nxo_forms.erl"}.
-{file, "src/nxo/nxo_login.erl",                       "{{name}}/src/nxo/nxo_login.erl"}.
-{file, "src/nxo/nxo_mail.erl",                        "{{name}}/src/nxo/nxo_mail.erl"}.
-{file, "src/nxo/nxo_modal.erl",                       "{{name}}/src/nxo/nxo_modal.erl"}.
-{file, "src/nxo/nxo_obj.erl",                         "{{name}}/src/nxo/nxo_obj.erl"}.
-{file, "src/nxo/nxo_org.erl",                         "{{name}}/src/nxo/nxo_org.erl"}.
-{file, "src/nxo/nxo_page_security.erl",               "{{name}}/src/nxo/nxo_page_security.erl"}.
-{file, "src/nxo/nxo_settings.erl",                    "{{name}}/src/nxo/nxo_settings.erl"}.
-{file, "src/nxo/nxo_validate.erl",                    "{{name}}/src/nxo/nxo_validate.erl"}.
-{file, "src/nxo/nxo_view.erl",                        "{{name}}/src/nxo/nxo_view.erl"}.
+%% {file, "src/nxo/nxo.erl",                             "{{name}}/src/nxo/nxo.erl"}.
+%% {file, "src/nxo/nxo_ad.erl",                          "{{name}}/src/nxo/nxo_ad.erl"}.
+%% {file, "src/nxo/nxo_api.erl",                         "{{name}}/src/nxo/nxo_api.erl"}.
+%% {file, "src/nxo/nxo_auth_group.erl",                  "{{name}}/src/nxo/nxo_auth_group.erl"}.
+%% {file, "src/nxo/nxo_auth_user.erl",                   "{{name}}/src/nxo/nxo_auth_user.erl"}.
+%% {file, "src/nxo/nxo_authz.erl",                       "{{name}}/src/nxo/nxo_authz.erl"}.
+%% {file, "src/nxo/nxo_datamap.erl",                     "{{name}}/src/nxo/nxo_datamap.erl"}.
+%% {file, "src/nxo/nxo_forms.erl",                       "{{name}}/src/nxo/nxo_forms.erl"}.
+%% {file, "src/nxo/nxo_login.erl",                       "{{name}}/src/nxo/nxo_login.erl"}.
+%% {file, "src/nxo/nxo_mail.erl",                        "{{name}}/src/nxo/nxo_mail.erl"}.
+%% {file, "src/nxo/nxo_modal.erl",                       "{{name}}/src/nxo/nxo_modal.erl"}.
+%% {file, "src/nxo/nxo_obj.erl",                         "{{name}}/src/nxo/nxo_obj.erl"}.
+%% {file, "src/nxo/nxo_org.erl",                         "{{name}}/src/nxo/nxo_org.erl"}.
+%% {file, "src/nxo/nxo_page_security.erl",               "{{name}}/src/nxo/nxo_page_security.erl"}.
+%% {file, "src/nxo/nxo_settings.erl",                    "{{name}}/src/nxo/nxo_settings.erl"}.
+%% {file, "src/nxo/nxo_validate.erl",                    "{{name}}/src/nxo/nxo_validate.erl"}.
+%% {file, "src/nxo/nxo_view.erl",                        "{{name}}/src/nxo/nxo_view.erl"}.
 
-{file, "src/nxo/pages/page_api.erl",                       "{{name}}/src/nxo/pages/page_api.erl"}.
-{file, "src/nxo/pages/page_duoweb_login.erl",              "{{name}}/src/nxo/pages/page_duoweb_login.erl"}.
-{file, "src/nxo/pages/page_group_form.erl",                "{{name}}/src/nxo/pages/page_group_form.erl"}.
-{file, "src/nxo/pages/page_groups.erl",                    "{{name}}/src/nxo/pages/page_groups.erl"}.
-{file, "src/nxo/pages/page_login.erl",                     "{{name}}/src/nxo/pages/page_login.erl"}.
-{file, "src/nxo/pages/page_login_audit.erl",               "{{name}}/src/nxo/pages/page_login_audit.erl"}.
-{file, "src/nxo/pages/page_mailcheck.erl",                 "{{name}}/src/nxo/pages/page_mailcheck.erl"}.
-{file, "src/nxo/pages/page_not_authorized.erl",            "{{name}}/src/nxo/pages/page_not_authorized.erl"}.
-{file, "src/nxo/pages/page_org_form.erl",                  "{{name}}/src/nxo/pages/page_org_form.erl"}.
-{file, "src/nxo/pages/page_org_info.erl",                  "{{name}}/src/nxo/pages/page_org_info.erl"}.
-{file, "src/nxo/pages/page_organization.erl",              "{{name}}/src/nxo/pages/page_organization.erl"}.
-{file, "src/nxo/pages/page_password.erl",                  "{{name}}/src/nxo/pages/page_password.erl"}.
-{file, "src/nxo/pages/page_query_inspector.erl",           "{{name}}/src/nxo/pages/page_query_inspector.erl"}.
-{file, "src/nxo/pages/page_request_access.erl",            "{{name}}/src/nxo/pages/page_request_access.erl"}.
-{file, "src/nxo/pages/page_request_access_confirm.erl",    "{{name}}/src/nxo/pages/page_request_access_confirm.erl"}.
-{file, "src/nxo/pages/page_settings.erl",                  "{{name}}/src/nxo/pages/page_settings.erl"}.
-{file, "src/nxo/pages/page_settings_audit.erl",            "{{name}}/src/nxo/pages/page_settings_audit.erl"}.
-{file, "src/nxo/pages/page_user_ad_add.erl",               "{{name}}/src/nxo/pages/page_user_ad_add.erl"}.
-{file, "src/nxo/pages/page_user_form.erl",                 "{{name}}/src/nxo/pages/page_user_form.erl"}.
-{file, "src/nxo/pages/page_user_info.erl",                 "{{name}}/src/nxo/pages/page_user_info.erl"}.
-{file, "src/nxo/pages/page_users.erl",                     "{{name}}/src/nxo/pages/page_users.erl"}.
+%% {file, "src/nxo/pages/page_api.erl",                       "{{name}}/src/nxo/pages/page_api.erl"}.
+%% {file, "src/nxo/pages/page_duoweb_login.erl",              "{{name}}/src/nxo/pages/page_duoweb_login.erl"}.
+%% {file, "src/nxo/pages/page_group_form.erl",                "{{name}}/src/nxo/pages/page_group_form.erl"}.
+%% {file, "src/nxo/pages/page_groups.erl",                    "{{name}}/src/nxo/pages/page_groups.erl"}.
+%% {file, "src/nxo/pages/page_login.erl",                     "{{name}}/src/nxo/pages/page_login.erl"}.
+%% {file, "src/nxo/pages/page_login_audit.erl",               "{{name}}/src/nxo/pages/page_login_audit.erl"}.
+%% {file, "src/nxo/pages/page_mailcheck.erl",                 "{{name}}/src/nxo/pages/page_mailcheck.erl"}.
+%% {file, "src/nxo/pages/page_not_authorized.erl",            "{{name}}/src/nxo/pages/page_not_authorized.erl"}.
+%% {file, "src/nxo/pages/page_org_form.erl",                  "{{name}}/src/nxo/pages/page_org_form.erl"}.
+%% {file, "src/nxo/pages/page_org_info.erl",                  "{{name}}/src/nxo/pages/page_org_info.erl"}.
+%% {file, "src/nxo/pages/page_organization.erl",              "{{name}}/src/nxo/pages/page_organization.erl"}.
+%% {file, "src/nxo/pages/page_password.erl",                  "{{name}}/src/nxo/pages/page_password.erl"}.
+%% {file, "src/nxo/pages/page_query_inspector.erl",           "{{name}}/src/nxo/pages/page_query_inspector.erl"}.
+%% {file, "src/nxo/pages/page_request_access.erl",            "{{name}}/src/nxo/pages/page_request_access.erl"}.
+%% {file, "src/nxo/pages/page_request_access_confirm.erl",    "{{name}}/src/nxo/pages/page_request_access_confirm.erl"}.
+%% {file, "src/nxo/pages/page_settings.erl",                  "{{name}}/src/nxo/pages/page_settings.erl"}.
+%% {file, "src/nxo/pages/page_settings_audit.erl",            "{{name}}/src/nxo/pages/page_settings_audit.erl"}.
+%% {file, "src/nxo/pages/page_user_ad_add.erl",               "{{name}}/src/nxo/pages/page_user_ad_add.erl"}.
+%% {file, "src/nxo/pages/page_user_form.erl",                 "{{name}}/src/nxo/pages/page_user_form.erl"}.
+%% {file, "src/nxo/pages/page_user_info.erl",                 "{{name}}/src/nxo/pages/page_user_info.erl"}.
+%% {file, "src/nxo/pages/page_users.erl",                     "{{name}}/src/nxo/pages/page_users.erl"}.
 
-{file, "src/nxo/servers/nxo_sessions.erl",            "{{name}}/src/nxo/servers/nxo_sessions.erl"}.
+%% {file, "src/nxo/servers/nxo_sessions.erl",            "{{name}}/src/nxo/servers/nxo_sessions.erl"}.
 
-{file, "src/nxo/cache/nxo_query_cache.erl",           "{{name}}/src/nxo/cache/nxo_query_cache.erl"}.
-{file, "src/nxo/cache/nxo_sql_cache.erl",             "{{name}}/src/nxo/cache/nxo_sql_cache.erl"}.
+%% {file, "src/nxo/cache/nxo_query_cache.erl",           "{{name}}/src/nxo/cache/nxo_query_cache.erl"}.
+%% {file, "src/nxo/cache/nxo_sql_cache.erl",             "{{name}}/src/nxo/cache/nxo_sql_cache.erl"}.
 
-{file, "src/nxo/delegates/nxo_db_delegate.erl",         "{{name}}/src/nxo/delegates/nxo_db_delegate.erl"}.
-{file, "src/nxo/delegates/nxo_template_delegate.erl",   "{{name}}/src/nxo/delegates/nxo_template_delegate.erl"}.
+%% {file, "src/nxo/delegates/nxo_db_delegate.erl",         "{{name}}/src/nxo/delegates/nxo_db_delegate.erl"}.
+%% {file, "src/nxo/delegates/nxo_template_delegate.erl",   "{{name}}/src/nxo/delegates/nxo_template_delegate.erl"}.
 
 
 
 %% INCLUDE
 {dir, "{{name}}/include"}.
 {file, "include/app.hrl_template", "{{name}}/include/{{name}}.hrl"}.
-{file, "include/nxo.hrl_template", "{{name}}/include/nxo.hrl"}.
+%% {file, "include/nxo.hrl_template", "{{name}}/include/nxo.hrl"}.
 
 %% PRIV
 {dir, "{{name}}/priv"}.
 {dir, "{{name}}/priv/templates"}.
 {dir, "{{name}}/priv/static"}.
-{dir, "{{name}}/priv/static/nitrogen"}.
+% {dir, "{{name}}/priv/static/nitrogen"}.
 {dir, "{{name}}/priv/static/css"}.
 {dir, "{{name}}/priv/static/images"}.
 {dir, "{{name}}/priv/xsd"}.
@@ -136,204 +136,102 @@
 {dir, "{{name}}/priv/datamap"}.
 {dir, "{{name}}/priv/dtl"}.
 
-{file, "priv/static/images/menu-logo.png", "{{name}}/priv/static/images/menu-logo.png"}.
+%% {file, "priv/static/images/menu-logo.png", "{{name}}/priv/static/images/menu-logo.png"}.
 
 %% PRIV/VALIDATION
-{file, "priv/validation/group_form.erl",          "{{name}}/priv/validation/group_form.erl"}.
-{file, "priv/validation/org_form.erl",            "{{name}}/priv/validation/org_form.erl"}.
-{file, "priv/validation/request_form.erl",        "{{name}}/priv/validation/request_form.erl"}.
-{file, "priv/validation/user_form.erl",           "{{name}}/priv/validation/user_form.erl"}.
+%% {file, "priv/validation/group_form.erl",          "{{name}}/priv/validation/group_form.erl"}.
+%% {file, "priv/validation/org_form.erl",            "{{name}}/priv/validation/org_form.erl"}.
+%% {file, "priv/validation/request_form.erl",        "{{name}}/priv/validation/request_form.erl"}.
+%% {file, "priv/validation/user_form.erl",           "{{name}}/priv/validation/user_form.erl"}.
 
 
 %% PRIV/DDL
 {dir, "{{name}}/priv/ddl"}.
-{file, "priv/ddl/00-sys-ddl-files.sql", "{{name}}/priv/ddl/00-sys-ddl-files.sql"}.
-{file, "priv/ddl/02-nxo-users.sql",     "{{name}}/priv/ddl/02-nxo-users.sql"}.
-{file, "priv/ddl/03-nxo-settings.sql",  "{{name}}/priv/ddl/03-nxo-settings.sql"}.
-{file, "priv/ddl/04-nxo-api.sql",       "{{name}}/priv/ddl/04-nxo-api.sql"}.
-{file, "priv/ddl/05-sp.sql",            "{{name}}/priv/ddl/05-sp.sql"}.
-{template, "priv/ddl/06-nxo-authz.sql", "{{name}}/priv/ddl/06-nxo-authz.sql"}.
-{file, "priv/ddl/09-nxo-defaults.sql",  "{{name}}/priv/ddl/09-nxo-defaults.sql"}.
+%% {file, "priv/ddl/00-sys-ddl-files.sql", "{{name}}/priv/ddl/00-sys-ddl-files.sql"}.
+%% {file, "priv/ddl/02-nxo-users.sql",     "{{name}}/priv/ddl/02-nxo-users.sql"}.
+%% {file, "priv/ddl/03-nxo-settings.sql",  "{{name}}/priv/ddl/03-nxo-settings.sql"}.
+%% {file, "priv/ddl/04-nxo-api.sql",       "{{name}}/priv/ddl/04-nxo-api.sql"}.
+%% {file, "priv/ddl/05-sp.sql",            "{{name}}/priv/ddl/05-sp.sql"}.
+%% {template, "priv/ddl/06-nxo-authz.sql", "{{name}}/priv/ddl/06-nxo-authz.sql"}.
+%% {file, "priv/ddl/09-nxo-defaults.sql",  "{{name}}/priv/ddl/09-nxo-defaults.sql"}.
 
 %% PRIV/mail_templates
 {dir, "{{name}}/priv/mail_templates"}.
-{template, "priv/mail_templates/account_confirmed", "{{name}}/priv/mail_templates/account_confirmed"}.
-{template, "priv/mail_templates/account_requested", "{{name}}/priv/mail_templates/account_requested"}.
-{file,     "priv/mail_templates/sample",            "{{name}}/priv/mail_templates/sample"}.
-{file,     "priv/mail_templates/mailcheck",         "{{name}}/priv/mail_templates/mailcheck"}.
+%% {template, "priv/mail_templates/account_confirmed", "{{name}}/priv/mail_templates/account_confirmed"}.
+%% {template, "priv/mail_templates/account_requested", "{{name}}/priv/mail_templates/account_requested"}.
+%% {file,     "priv/mail_templates/sample",            "{{name}}/priv/mail_templates/sample"}.
+%% {file,     "priv/mail_templates/mailcheck",         "{{name}}/priv/mail_templates/mailcheck"}.
 
 %% PRIV/sql
 {dir, "{{name}}/priv/sql"}.
 
-{file, "priv/sql/ping.sql", "{{name}}/priv/sql/ping.sql"}.
+%% {file, "priv/sql/ping.sql", "{{name}}/priv/sql/ping.sql"}.
 
-{file, "priv/sql/sys.eqlite", "{{name}}/priv/sql/sys.eqlite"}.
-{file, "priv/sql/nxo.eqlite", "{{name}}/priv/sql/nxo.eqlite"}.
+%% {file, "priv/sql/sys.eqlite", "{{name}}/priv/sql/sys.eqlite"}.
+%% {file, "priv/sql/nxo.eqlite", "{{name}}/priv/sql/nxo.eqlite"}.
 
-{file, "priv/sql/api/api_audit.sql",   "{{name}}/priv/sql/api/api_audit.sql"}.
-{file, "priv/sql/api/api_log.sql",     "{{name}}/priv/sql/api/api_log.sql"}.
-{file, "priv/sql/api/get_api_key.sql", "{{name}}/priv/sql/api/get_api_key.sql"}.
-{file, "priv/sql/api/is_api_key.sql",  "{{name}}/priv/sql/api/is_api_key.sql"}.
-{file, "priv/sql/api/set_api_key.sql", "{{name}}/priv/sql/api/set_api_key.sql"}.
+%% {file, "priv/sql/api/api_audit.sql",   "{{name}}/priv/sql/api/api_audit.sql"}.
+%% {file, "priv/sql/api/api_log.sql",     "{{name}}/priv/sql/api/api_log.sql"}.
+%% {file, "priv/sql/api/get_api_key.sql", "{{name}}/priv/sql/api/get_api_key.sql"}.
+%% {file, "priv/sql/api/is_api_key.sql",  "{{name}}/priv/sql/api/is_api_key.sql"}.
+%% {file, "priv/sql/api/set_api_key.sql", "{{name}}/priv/sql/api/set_api_key.sql"}.
 
 %% PRIV/STATIC
 {dir, "{{name}}/priv/static"}.
-{dir, "{{name}}/priv/static/css"}.
-{dir, "{{name}}/priv/static/images"}.
-{dir, "{{name}}/priv/static/js"}.
-{dir, "{{name}}/priv/nitrogen"}.
-{file, "priv/static/css/app.css",          "{{name}}/priv/static/css/{{name}}.css"}.
-{file, "priv/static/js/Duo-Web-v2.min.js", "{{name}}/priv/static/js/Duo-Web-v2.min.js"}.
+%% {dir, "{{name}}/priv/static/css"}.
+%% {dir, "{{name}}/priv/static/images"}.
+%% {dir, "{{name}}/priv/static/js"}.
+%% {dir, "{{name}}/priv/nitrogen"}.
+%% {file, "priv/static/css/app.css",          "{{name}}/priv/static/css/{{name}}.css"}.
 
 %% PRIV/DATAMAP
 {dir, "{{name}}/priv/datamap"}.
-{file, "priv/datamap/group_form.erl",      "{{name}}/priv/datamap/group_form.erl"}.
-{file, "priv/datamap/org_add.erl",         "{{name}}/priv/datamap/org_add.erl"}.
-{file, "priv/datamap/org_contact_add.erl", "{{name}}/priv/datamap/org_contact_add.erl"}.
-{file, "priv/datamap/user_add.erl",        "{{name}}/priv/datamap/user_add.erl"}.
-{file, "priv/datamap/user_org_add.erl",    "{{name}}/priv/datamap/user_org_add.erl"}.
+%% {file, "priv/datamap/group_form.erl",      "{{name}}/priv/datamap/group_form.erl"}.
+%% {file, "priv/datamap/org_add.erl",         "{{name}}/priv/datamap/org_add.erl"}.
+%% {file, "priv/datamap/org_contact_add.erl", "{{name}}/priv/datamap/org_contact_add.erl"}.
+%% {file, "priv/datamap/user_add.erl",        "{{name}}/priv/datamap/user_add.erl"}.
+%% {file, "priv/datamap/user_org_add.erl",    "{{name}}/priv/datamap/user_org_add.erl"}.
 
 
 %% PRIV/TEMPLATES
 {dir, "{{name}}/priv/templates"}.
-{dir, "{{name}}/priv/templates/nxo"}.
+%% {dir, "{{name}}/priv/templates/nxo"}.
 
-{file, "priv/templates/api.html",                        "{{name}}/priv/templates/api.html"}.
-{file, "priv/templates/footer.html",                     "{{name}}/priv/templates/footer.html"}.
-{file, "priv/templates/header.html",                     "{{name}}/priv/templates/header.html"}.
-{file, "priv/templates/index.html",                      "{{name}}/priv/templates/index.html"}.
-{file, "priv/templates/login.html",                      "{{name}}/priv/templates/login.html"}.
-{file, "priv/templates/organization.html",               "{{name}}/priv/templates/organization.html"}.
-{file, "priv/templates/template.html",                   "{{name}}/priv/templates/template.html"}.
-{template, "priv/templates/menu.html",                   "{{name}}/priv/templates/menu.html"}.
+%% {file, "priv/templates/api.html",                        "{{name}}/priv/templates/api.html"}.
+%% {file, "priv/templates/footer.html",                     "{{name}}/priv/templates/footer.html"}.
+%% {file, "priv/templates/header.html",                     "{{name}}/priv/templates/header.html"}.
+%% {file, "priv/templates/index.html",                      "{{name}}/priv/templates/index.html"}.
+%% {file, "priv/templates/login.html",                      "{{name}}/priv/templates/login.html"}.
+%% {file, "priv/templates/organization.html",               "{{name}}/priv/templates/organization.html"}.
+%% {file, "priv/templates/template.html",                   "{{name}}/priv/templates/template.html"}.
+%% {template, "priv/templates/menu.html",                   "{{name}}/priv/templates/menu.html"}.
 
-{file, "priv/templates/nxo/duoweb_login.html",          "{{name}}/priv/templates/nxo/duoweb_login.html"}.
-{file, "priv/templates/nxo/format_org.html",            "{{name}}/priv/templates/nxo/format_org.html"}.
-{file, "priv/templates/nxo/group_form.html",            "{{name}}/priv/templates/nxo/group_form.html"}.
-{file, "priv/templates/nxo/groups.html",                "{{name}}/priv/templates/nxo/groups.html"}.
-{file, "priv/templates/nxo/login_audit.html",           "{{name}}/priv/templates/nxo/login_audit.html"}.
-{file, "priv/templates/nxo/mailcheck.html",             "{{name}}/priv/templates/nxo/mailcheck.html"}.
-{file, "priv/templates/nxo/not_authorized.html",        "{{name}}/priv/templates/nxo/not_authorized.html"}.
-{file, "priv/templates/nxo/org_form.html",              "{{name}}/priv/templates/nxo/org_form.html"}.
-{file, "priv/templates/nxo/organization.html",          "{{name}}/priv/templates/nxo/organization.html"}.
-{file, "priv/templates/nxo/password.html",              "{{name}}/priv/templates/nxo/password.html"}.
-{file, "priv/templates/nxo/query_inspector.html",       "{{name}}/priv/templates/nxo/query_inspector.html"}.
-{file, "priv/templates/nxo/request_access.html",        "{{name}}/priv/templates/nxo/request_access.html"}.
-{file, "priv/templates/nxo/request_access_confirm.html","{{name}}/priv/templates/nxo/request_access_confirm.html"}.
-{file, "priv/templates/nxo/settings.html",              "{{name}}/priv/templates/nxo/settings.html"}.
-{file, "priv/templates/nxo/settings_audit.html",        "{{name}}/priv/templates/nxo/settings_audit.html"}.
-{file, "priv/templates/nxo/user_ad_add.html",           "{{name}}/priv/templates/nxo/user_ad_add.html"}.
-{file, "priv/templates/nxo/user_form.html",             "{{name}}/priv/templates/nxo/user_form.html"}.
-{file, "priv/templates/nxo/user_form_ad.html",          "{{name}}/priv/templates/nxo/user_form_ad.html"}.
-{file, "priv/templates/nxo/users.html",                 "{{name}}/priv/templates/nxo/users.html"}.
+%% {file, "priv/templates/nxo/duoweb_login.html",          "{{name}}/priv/templates/nxo/duoweb_login.html"}.
+%% {file, "priv/templates/nxo/format_org.html",            "{{name}}/priv/templates/nxo/format_org.html"}.
+%% {file, "priv/templates/nxo/group_form.html",            "{{name}}/priv/templates/nxo/group_form.html"}.
+%% {file, "priv/templates/nxo/groups.html",                "{{name}}/priv/templates/nxo/groups.html"}.
+%% {file, "priv/templates/nxo/login_audit.html",           "{{name}}/priv/templates/nxo/login_audit.html"}.
+%% {file, "priv/templates/nxo/mailcheck.html",             "{{name}}/priv/templates/nxo/mailcheck.html"}.
+%% {file, "priv/templates/nxo/not_authorized.html",        "{{name}}/priv/templates/nxo/not_authorized.html"}.
+%% {file, "priv/templates/nxo/org_form.html",              "{{name}}/priv/templates/nxo/org_form.html"}.
+%% {file, "priv/templates/nxo/organization.html",          "{{name}}/priv/templates/nxo/organization.html"}.
+%% {file, "priv/templates/nxo/password.html",              "{{name}}/priv/templates/nxo/password.html"}.
+%% {file, "priv/templates/nxo/query_inspector.html",       "{{name}}/priv/templates/nxo/query_inspector.html"}.
+%% {file, "priv/templates/nxo/request_access.html",        "{{name}}/priv/templates/nxo/request_access.html"}.
+%% {file, "priv/templates/nxo/request_access_confirm.html","{{name}}/priv/templates/nxo/request_access_confirm.html"}.
+%% {file, "priv/templates/nxo/settings.html",              "{{name}}/priv/templates/nxo/settings.html"}.
+%% {file, "priv/templates/nxo/settings_audit.html",        "{{name}}/priv/templates/nxo/settings_audit.html"}.
+%% {file, "priv/templates/nxo/user_ad_add.html",           "{{name}}/priv/templates/nxo/user_ad_add.html"}.
+%% {file, "priv/templates/nxo/user_form.html",             "{{name}}/priv/templates/nxo/user_form.html"}.
+%% {file, "priv/templates/nxo/user_form_ad.html",          "{{name}}/priv/templates/nxo/user_form_ad.html"}.
+%% {file, "priv/templates/nxo/users.html",                 "{{name}}/priv/templates/nxo/users.html"}.
 
-%% PRIV/DTL
-{file, "priv/dtl/nxo/ad_user.dtl",             "{{name}}/priv/dtl/nxo/ad_user.dtl"}.
-{file, "priv/dtl/nxo/group_list.dtl",          "{{name}}/priv/dtl/nxo/group_list.dtl"}.
-{file, "priv/dtl/nxo/org_list.dtl",            "{{name}}/priv/dtl/nxo/org_list.dtl"}.
-{file, "priv/dtl/nxo/organization.dtl",        "{{name}}/priv/dtl/nxo/organization.dtl"}.
-{file, "priv/dtl/nxo/request_form.dtl",        "{{name}}/priv/dtl/nxo/request_form.dtl"}.
-{file, "priv/dtl/nxo/user.dtl",                "{{name}}/priv/dtl/nxo/user.dtl"}.
-{file, "priv/dtl/nxo/user_group.dtl",          "{{name}}/priv/dtl/nxo/user_group.dtl"}.
-{file, "priv/dtl/nxo/user_list.dtl",           "{{name}}/priv/dtl/nxo/user_list.dtl"}.
-
-
-
-%% BOOTSTRAP
-{dir, "{{name}}/etc/bootstrap"}.
-{dir, "{{name}}/etc/bootstrap/mixins"}.
-{dir, "{{name}}/etc/bootstrap/utilities"}.
-{dir, "{{name}}/etc/bootstrap/vendor"}.
-{template, "etc/bootstrap/Dockerfile", "{{name}}/etc/bootstrap/Dockerfile"}.
-
-{file, "etc/bootstrap/custom.scss",                          "{{name}}/etc/bootstrap/custom.scss"}.
-{file, "etc/bootstrap/scss/_code.scss",                      "{{name}}/etc/bootstrap/scss/_code.scss"}.
-{file, "etc/bootstrap/scss/_functions.scss",                 "{{name}}/etc/bootstrap/scss/_functions.scss"}.
-{file, "etc/bootstrap/scss/_toasts.scss",                    "{{name}}/etc/bootstrap/scss/_toasts.scss"}.
-{file, "etc/bootstrap/scss/_jumbotron.scss",                 "{{name}}/etc/bootstrap/scss/_jumbotron.scss"}.
-{file, "etc/bootstrap/scss/_navbar.scss",                    "{{name}}/etc/bootstrap/scss/_navbar.scss"}.
-{file, "etc/bootstrap/scss/_variables.scss",                 "{{name}}/etc/bootstrap/scss/_variables.scss"}.
-{file, "etc/bootstrap/scss/_progress.scss",                  "{{name}}/etc/bootstrap/scss/_progress.scss"}.
-{file, "etc/bootstrap/scss/_popover.scss",                   "{{name}}/etc/bootstrap/scss/_popover.scss"}.
-{file, "etc/bootstrap/scss/_input-group.scss",               "{{name}}/etc/bootstrap/scss/_input-group.scss"}.
-{file, "etc/bootstrap/scss/_breadcrumb.scss",                "{{name}}/etc/bootstrap/scss/_breadcrumb.scss"}.
-{file, "etc/bootstrap/scss/_carousel.scss",                  "{{name}}/etc/bootstrap/scss/_carousel.scss"}.
-{file, "etc/bootstrap/scss/bootstrap.scss",                  "{{name}}/etc/bootstrap/scss/bootstrap.scss"}.
-{file, "etc/bootstrap/scss/_badge.scss",                     "{{name}}/etc/bootstrap/scss/_badge.scss"}.
-{file, "etc/bootstrap/scss/mixins/_reset-text.scss",         "{{name}}/etc/bootstrap/scss/mixins/_reset-text.scss"}.
-{file, "etc/bootstrap/scss/mixins/_hover.scss",              "{{name}}/etc/bootstrap/scss/mixins/_hover.scss"}.
-{file, "etc/bootstrap/scss/mixins/_image.scss",              "{{name}}/etc/bootstrap/scss/mixins/_image.scss"}.
-{file, "etc/bootstrap/scss/mixins/_badge.scss",              "{{name}}/etc/bootstrap/scss/mixins/_badge.scss"}.
-{file, "etc/bootstrap/scss/mixins/_deprecate.scss",          "{{name}}/etc/bootstrap/scss/mixins/_deprecate.scss"}.
-{file, "etc/bootstrap/scss/mixins/_lists.scss",              "{{name}}/etc/bootstrap/scss/mixins/_lists.scss"}.
-{file, "etc/bootstrap/scss/mixins/_float.scss",              "{{name}}/etc/bootstrap/scss/mixins/_float.scss"}.
-{file, "etc/bootstrap/scss/mixins/_gradients.scss",          "{{name}}/etc/bootstrap/scss/mixins/_gradients.scss"}.
-{file, "etc/bootstrap/scss/mixins/_text-truncate.scss",      "{{name}}/etc/bootstrap/scss/mixins/_text-truncate.scss"}.
-{file, "etc/bootstrap/scss/mixins/_text-emphasis.scss",      "{{name}}/etc/bootstrap/scss/mixins/_text-emphasis.scss"}.
-{file, "etc/bootstrap/scss/mixins/_table-row.scss",          "{{name}}/etc/bootstrap/scss/mixins/_table-row.scss"}.
-{file, "etc/bootstrap/scss/mixins/_background-variant.scss", "{{name}}/etc/bootstrap/scss/mixins/_background-variant.scss"}.
-{file, "etc/bootstrap/scss/mixins/_breakpoints.scss",        "{{name}}/etc/bootstrap/scss/mixins/_breakpoints.scss"}.
-{file, "etc/bootstrap/scss/mixins/_box-shadow.scss",         "{{name}}/etc/bootstrap/scss/mixins/_box-shadow.scss"}.
-{file, "etc/bootstrap/scss/mixins/_forms.scss",              "{{name}}/etc/bootstrap/scss/mixins/_forms.scss"}.
-{file, "etc/bootstrap/scss/mixins/_buttons.scss",            "{{name}}/etc/bootstrap/scss/mixins/_buttons.scss"}.
-{file, "etc/bootstrap/scss/mixins/_transition.scss",         "{{name}}/etc/bootstrap/scss/mixins/_transition.scss"}.
-{file, "etc/bootstrap/scss/mixins/_grid-framework.scss",     "{{name}}/etc/bootstrap/scss/mixins/_grid-framework.scss"}.
-{file, "etc/bootstrap/scss/mixins/_caret.scss",              "{{name}}/etc/bootstrap/scss/mixins/_caret.scss"}.
-{file, "etc/bootstrap/scss/mixins/_resize.scss",             "{{name}}/etc/bootstrap/scss/mixins/_resize.scss"}.
-{file, "etc/bootstrap/scss/mixins/_screen-reader.scss",      "{{name}}/etc/bootstrap/scss/mixins/_screen-reader.scss"}.
-{file, "etc/bootstrap/scss/mixins/_nav-divider.scss",        "{{name}}/etc/bootstrap/scss/mixins/_nav-divider.scss"}.
-{file, "etc/bootstrap/scss/mixins/_list-group.scss",         "{{name}}/etc/bootstrap/scss/mixins/_list-group.scss"}.
-{file, "etc/bootstrap/scss/mixins/_pagination.scss",         "{{name}}/etc/bootstrap/scss/mixins/_pagination.scss"}.
-{file, "etc/bootstrap/scss/mixins/_clearfix.scss",           "{{name}}/etc/bootstrap/scss/mixins/_clearfix.scss"}.
-{file, "etc/bootstrap/scss/mixins/_grid.scss",               "{{name}}/etc/bootstrap/scss/mixins/_grid.scss"}.
-{file, "etc/bootstrap/scss/mixins/_text-hide.scss",          "{{name}}/etc/bootstrap/scss/mixins/_text-hide.scss"}.
-{file, "etc/bootstrap/scss/mixins/_alert.scss",              "{{name}}/etc/bootstrap/scss/mixins/_alert.scss"}.
-{file, "etc/bootstrap/scss/mixins/_border-radius.scss",      "{{name}}/etc/bootstrap/scss/mixins/_border-radius.scss"}.
-{file, "etc/bootstrap/scss/mixins/_size.scss",               "{{name}}/etc/bootstrap/scss/mixins/_size.scss"}.
-{file, "etc/bootstrap/scss/mixins/_visibility.scss",         "{{name}}/etc/bootstrap/scss/mixins/_visibility.scss"}.
-{file, "etc/bootstrap/scss/_print.scss",                     "{{name}}/etc/bootstrap/scss/_print.scss"}.
-{file, "etc/bootstrap/scss/_media.scss",                     "{{name}}/etc/bootstrap/scss/_media.scss"}.
-{file, "etc/bootstrap/scss/_button-group.scss",              "{{name}}/etc/bootstrap/scss/_button-group.scss"}.
-{file, "etc/bootstrap/scss/_reboot.scss",                    "{{name}}/etc/bootstrap/scss/_reboot.scss"}.
-{file, "etc/bootstrap/scss/_utilities.scss",                 "{{name}}/etc/bootstrap/scss/_utilities.scss"}.
-{file, "etc/bootstrap/scss/_forms.scss",                     "{{name}}/etc/bootstrap/scss/_forms.scss"}.
-{file, "etc/bootstrap/scss/_buttons.scss",                   "{{name}}/etc/bootstrap/scss/_buttons.scss"}.
-{file, "etc/bootstrap/scss/_tables.scss",                    "{{name}}/etc/bootstrap/scss/_tables.scss"}.
-{file, "etc/bootstrap/scss/utilities/_shadows.scss",         "{{name}}/etc/bootstrap/scss/utilities/_shadows.scss"}.
-{file, "etc/bootstrap/scss/utilities/_background.scss",      "{{name}}/etc/bootstrap/scss/utilities/_background.scss"}.
-{file, "etc/bootstrap/scss/utilities/_float.scss",           "{{name}}/etc/bootstrap/scss/utilities/_float.scss"}.
-{file, "etc/bootstrap/scss/utilities/_borders.scss",         "{{name}}/etc/bootstrap/scss/utilities/_borders.scss"}.
-{file, "etc/bootstrap/scss/utilities/_interactions.scss",    "{{name}}/etc/bootstrap/scss/utilities/_interactions.scss"}.
-{file, "etc/bootstrap/scss/utilities/_flex.scss",            "{{name}}/etc/bootstrap/scss/utilities/_flex.scss"}.
-{file, "etc/bootstrap/scss/utilities/_clearfix.scss",        "{{name}}/etc/bootstrap/scss/utilities/_clearfix.scss"}.
-{file, "etc/bootstrap/scss/utilities/_align.scss",           "{{name}}/etc/bootstrap/scss/utilities/_align.scss"}.
-{file, "etc/bootstrap/scss/utilities/_screenreaders.scss",   "{{name}}/etc/bootstrap/scss/utilities/_screenreaders.scss"}.
-{file, "etc/bootstrap/scss/utilities/_embed.scss",           "{{name}}/etc/bootstrap/scss/utilities/_embed.scss"}.
-{file, "etc/bootstrap/scss/utilities/_sizing.scss",          "{{name}}/etc/bootstrap/scss/utilities/_sizing.scss"}.
-{file, "etc/bootstrap/scss/utilities/_position.scss",        "{{name}}/etc/bootstrap/scss/utilities/_position.scss"}.
-{file, "etc/bootstrap/scss/utilities/_visibility.scss",      "{{name}}/etc/bootstrap/scss/utilities/_visibility.scss"}.
-{file, "etc/bootstrap/scss/utilities/_stretched-link.scss",  "{{name}}/etc/bootstrap/scss/utilities/_stretched-link.scss"}.
-{file, "etc/bootstrap/scss/utilities/_text.scss",            "{{name}}/etc/bootstrap/scss/utilities/_text.scss"}.
-{file, "etc/bootstrap/scss/utilities/_spacing.scss",         "{{name}}/etc/bootstrap/scss/utilities/_spacing.scss"}.
-{file, "etc/bootstrap/scss/utilities/_display.scss",         "{{name}}/etc/bootstrap/scss/utilities/_display.scss"}.
-{file, "etc/bootstrap/scss/utilities/_overflow.scss",        "{{name}}/etc/bootstrap/scss/utilities/_overflow.scss"}.
-{file, "etc/bootstrap/scss/_images.scss",                    "{{name}}/etc/bootstrap/scss/_images.scss"}.
-{file, "etc/bootstrap/scss/_close.scss",                     "{{name}}/etc/bootstrap/scss/_close.scss"}.
-{file, "etc/bootstrap/scss/_list-group.scss",                "{{name}}/etc/bootstrap/scss/_list-group.scss"}.
-{file, "etc/bootstrap/scss/bootstrap-grid.scss",             "{{name}}/etc/bootstrap/scss/bootstrap-grid.scss"}.
-{file, "etc/bootstrap/scss/_pagination.scss",                "{{name}}/etc/bootstrap/scss/_pagination.scss"}.
-{file, "etc/bootstrap/scss/_card.scss",                      "{{name}}/etc/bootstrap/scss/_card.scss"}.
-{file, "etc/bootstrap/scss/_grid.scss",                      "{{name}}/etc/bootstrap/scss/_grid.scss"}.
-{file, "etc/bootstrap/scss/_mixins.scss",                    "{{name}}/etc/bootstrap/scss/_mixins.scss"}.
-{file, "etc/bootstrap/scss/_custom-forms.scss",              "{{name}}/etc/bootstrap/scss/_custom-forms.scss"}.
-{file, "etc/bootstrap/scss/_nav.scss",                       "{{name}}/etc/bootstrap/scss/_nav.scss"}.
-{file, "etc/bootstrap/scss/_alert.scss",                     "{{name}}/etc/bootstrap/scss/_alert.scss"}.
-{file, "etc/bootstrap/scss/_transitions.scss",               "{{name}}/etc/bootstrap/scss/_transitions.scss"}.
-{file, "etc/bootstrap/scss/_tooltip.scss",                   "{{name}}/etc/bootstrap/scss/_tooltip.scss"}.
-{file, "etc/bootstrap/scss/_root.scss",                      "{{name}}/etc/bootstrap/scss/_root.scss"}.
-{file, "etc/bootstrap/scss/_modal.scss",                     "{{name}}/etc/bootstrap/scss/_modal.scss"}.
-{file, "etc/bootstrap/scss/_spinners.scss",                  "{{name}}/etc/bootstrap/scss/_spinners.scss"}.
-{file, "etc/bootstrap/scss/_type.scss",                      "{{name}}/etc/bootstrap/scss/_type.scss"}.
-{file, "etc/bootstrap/scss/_dropdown.scss",                  "{{name}}/etc/bootstrap/scss/_dropdown.scss"}.
-{file, "etc/bootstrap/scss/vendor/_rfs.scss",                "{{name}}/etc/bootstrap/scss/vendor/_rfs.scss"}.
-{file, "etc/bootstrap/scss/bootstrap-reboot.scss",           "{{name}}/etc/bootstrap/scss/bootstrap-reboot.scss"}.
+%% %% PRIV/DTL
+%% {file, "priv/dtl/nxo/ad_user.dtl",             "{{name}}/priv/dtl/nxo/ad_user.dtl"}.
+%% {file, "priv/dtl/nxo/group_list.dtl",          "{{name}}/priv/dtl/nxo/group_list.dtl"}.
+%% {file, "priv/dtl/nxo/org_list.dtl",            "{{name}}/priv/dtl/nxo/org_list.dtl"}.
+%% {file, "priv/dtl/nxo/organization.dtl",        "{{name}}/priv/dtl/nxo/organization.dtl"}.
+%% {file, "priv/dtl/nxo/request_form.dtl",        "{{name}}/priv/dtl/nxo/request_form.dtl"}.
+%% {file, "priv/dtl/nxo/user.dtl",                "{{name}}/priv/dtl/nxo/user.dtl"}.
+%% {file, "priv/dtl/nxo/user_group.dtl",          "{{name}}/priv/dtl/nxo/user_group.dtl"}.
+%% {file, "priv/dtl/nxo/user_list.dtl",           "{{name}}/priv/dtl/nxo/user_list.dtl"}.

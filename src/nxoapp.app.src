@@ -1,9 +1,10 @@
 {application, {{name}},
  [{description, "{{description}}"},
-  {vsn, {git, short}},
+  {vsn, {file, ".version"}},
   {registered, []},
   {mod, { {{name}}_app, []}},
-  {included_applications, [cowboy
+  {included_applications, [
+                           cowboy
                           , nitrogen_core
                           , nprocreg
                           , simple_bridge

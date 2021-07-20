@@ -2,8 +2,6 @@
 
 [
 
-
-
  {nxo_db,
   [{pools, [#{name => ${DB_NAME},
               host => "${DB_HOST}",
@@ -13,16 +11,24 @@
    {retries, 3},
    {retry_sleep, 400},
    {default_return, auto},
-   {ddl_source, [{priv_dir, {{name}}, "ddl"}]},
-   {sql_source, [{priv_dir, {{name}}, "sql"}]}
+   {ddl_source, [{priv_dir, nxo, "ddl"},
+                 {priv_dir, {{name}}, "ddl"}]},
+   {sql_source, [{priv_dir, nxo, "sql"},
+                 {priv_dir, {{name}}, "sql"}]}
   ]},
 
- {nxo_template, [{path, [{priv_dir, {{name}}, "dtl"}]}]},
+ {nxo_template, [{path, [{priv_dir, nxo, "dtl"},
+                         {priv_dir, {{name}}, "dtl"}]}]},
 
  {nxo, [{application, {{name}}},
-        {html_template_dir, [{priv_dir, {{name}}, "templates"}]}]},
+        {html_template_dir, [{priv_dir, nxo, "templates"},
+                             {priv_dir, {{name}}, "templates"}]},
+        {nxo_module_prefix, nxopage},
+        {nxo_static_assets, "static"},
+       ]},
 
  { {{name}}, [{db_pass, "${DB_PASSWORD}"},
+              {static_assets, "static"},
               {development_mode, ${DEVELOPMENT_MODE}}]},
 
  {nitrogen_core, [{module_prefix, "page"}]},
@@ -35,11 +41,20 @@
                   {address, "{{ bind }}"},
                   {port, {{ port }} },
                   {document_root, unused},
-                  {static_paths, ["js/", "css/", "images/", "nitrogen/",
-                                  "fonts/", "favicon.ico"]},
+                  {static_paths, []},
                   {max_post_size, 10},
                   {max_file_size, 10},
                   {max_file_in_memory_size,  0},
-                  {scratch_dir, "./scratch"}
-                 ]}
+                  {scratch_dir, "/tmp/scratch"}
+                 ]},
+
+  {kernel,
+    [{logger,
+      [{handler, default, logger_std_h,
+       #{formatter => {logger_formatter,
+                        #{template => ["[", level, "] ", msg, "\n"],
+                          single_line => false}}}}]},
+      {logger_level, debug}
+    ]}
+
 ].
