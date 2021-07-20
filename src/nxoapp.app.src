@@ -3,38 +3,13 @@
   {vsn, {file, ".version"}},
   {registered, []},
   {mod, { {{name}}_app, []}},
-  {included_applications, [
-                           cowboy
-                          , nitrogen_core
-                          , nprocreg
-                          , simple_bridge
-                          , nitro_cache
-                          , sync
-                          , eldap
-                          , yamerl
-                          , qdate
-                          , erlsom
-                          , uuid
-                          , pgpool
-                          , rekt
-                          , bcrypt
-                          , erlpass
-                          , gen_smtp
-                          , duoweb
-                          , jsx
-                          , nxo
-                          , nxo_template
-                          , nxo_db
-                          , paginate
-                          ]},
-
+  {included_applications, [nxo]}
   {applications,
    [kernel,
     stdlib
    ]},
   {env,[]},
   {modules, []},
-
   {licenses, []},
   {links, []}
  ]}.
