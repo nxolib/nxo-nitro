@@ -24,7 +24,7 @@
         {html_template_dir, [{priv_dir, nxo, "templates"},
                              {priv_dir, {{name}}, "templates"}]},
         {nxo_module_prefix, nxopage},
-        {nxo_static_assets, "static"},
+        {nxo_static_assets, "static"}
        ]},
 
  { {{name}}, [{db_pass, "${DB_PASSWORD}"},

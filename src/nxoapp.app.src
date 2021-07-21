@@ -3,10 +3,10 @@
   {vsn, {file, ".version"}},
   {registered, []},
   {mod, { {{name}}_app, []}},
-  {included_applications, [nxo]}
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    nxo
    ]},
   {env,[]},
   {modules, []},

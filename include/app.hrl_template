@@ -1,2 +1,1 @@
--include("nxo.hrl").
-
+-include_lib("nxo/include/nxo.hrl").
